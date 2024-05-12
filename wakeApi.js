@@ -1,6 +1,10 @@
-// Dynamic import for Node.js
-import('node-fetch').then(({ default: fetch }) => {
+import express from 'express';
+import fetch from 'node-fetch';
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
   // Your WakaTime access token
   const accessToken = process.env.ACCESS_TOKEN;
 
@@ -26,13 +30,15 @@ import('node-fetch').then(({ default: fetch }) => {
     }
   })
   .then(data => {
-    // Log the data for debugging
-    console.log('Data:', data);
+    // Send the fetched data as JSON response to the client
+    res.json(data);
   })
   .catch(error => {
-    console.error('Error:', error);
+    // Send error response to the client
+    res.status(500).json({ error: 'Internal Server Error' });
   });
+});
 
-}).catch(error => {
-  console.error('Error importing node-fetch:', error);
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
