@@ -26,13 +26,9 @@ app.get('/', async (req, res) => {
 
    
     if (response.ok) {
-     
       const data = await response.json();
       
-      
-      res.json(data);
-      
-    } else {
+      res.json(data.data.categories[0].text); 
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
