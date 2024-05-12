@@ -8,16 +8,16 @@ app.get('/', async (req, res) => {
     
     const { default: fetch } = await import('node-fetch');
 
-   
+    
     const accessToken = process.env.ACCESS_TOKEN;
 
     
     const user = 'Andiicodes';
 
-    
+   
     const url = `https://wakatime.com/api/v1/users/${user}/stats`;
 
-    
+  
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
@@ -26,19 +26,17 @@ app.get('/', async (req, res) => {
 
    
     if (response.ok) {
-      
+     
       const data = await response.json();
-
-     
-      const codingHours = data.data.text;
-
-     
-      res.json({ text: codingHours });
+      
+      
+      res.json(data);
+      
     } else {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
-    
+   
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
