@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedReferers = ['https://github.com', 'https://shields.io', 'https://wakatime-api-production.up.railway.app'];
+const allowedReferers = ['https://github.com', 'https://shields.io', 'http://localhost:3000', 'https://wakatime-api-production.up.railway.app'];
 
 app.use((req, res, next) => {
   const referer = req.get('Referer');
@@ -10,8 +10,7 @@ app.use((req, res, next) => {
   console.log('Referer:', referer);  
   console.log('Host:', host);        
 
- 
-  if ((!referer && host.startsWith('localhost')) || allowedReferers.some(r => referer && referer.startsWith(r))) {
+  if (!referer || allowedReferers.some(r => referer.startsWith(r)) || host === 'wakatime-api-production.up.railway.app') {
     next();
   } else {
     res.status(403).send('Access Denied');
