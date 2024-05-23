@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedReferers = ['https://github.com', 'https://shields.io'];
+const allowedReferers = ['https://github.com', 'https://shields.io', 'http://localhost:3000'];
 
 app.use((req, res, next) => {
   const referer = req.get('Referer');
-  
-  if (referer && allowedReferers.some(r => referer.startsWith(r))) {
+  const host = req.get('Host');
+  console.log('Referer:', referer);  
+  console.log('Host:', host);        
+
+ 
+  if ((!referer && host.startsWith('localhost')) || allowedReferers.some(r => referer && referer.startsWith(r))) {
     next();
   } else {
     res.status(403).send('Access Denied');
