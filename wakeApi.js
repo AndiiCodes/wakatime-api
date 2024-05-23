@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedReferers = ['https://github.com', 'https://shields.io', 'http://localhost:3000'];
+const allowedReferers = ['https://github.com', 'https://shields.io', 'https://wakatime-api-production.up.railway.app'];
 
 app.use((req, res, next) => {
   const referer = req.get('Referer');
